@@ -1,0 +1,17 @@
+{
+	"name": "listful-app",
+	"version": "0.0.1",
+	"license": "MIT",
+	"author": "Chris Klanac",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/cklanac/listful-app.git"
+	},
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js"
+	},
+	"dependencies": {
+		"express": "^4.16.2"
+	}
+}
