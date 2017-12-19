@@ -1,8 +1,12 @@
 'use strict';
 
 const express = require('express');
-const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const app = express();
+
+
+
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const data = [
   { 'name': 'Apples', 'checked': false },
@@ -18,6 +22,8 @@ const data = [
 ];
 
 
+
+
 /**
  * #2 example of anonymous function middleware in app.use
  */
@@ -28,6 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(morgan('common'));
 
 /**
  * #3 example of named function middleware
@@ -98,6 +105,16 @@ app.post('/items', (req, res) => {
   data.unshift(newItem);   // add to the front of array
   res.json(newItem);
 });
+
+app.use(function (req, res) {
+  res.status(404).json({ message: 'Not Found' });
+});
+
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something broke!' });
+});
+
 
 app.listen(8080, function () {
   console.info(`Server listening on ${this.address().port}`);
