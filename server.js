@@ -43,12 +43,15 @@ app.use(demoLogger);
 
 
 /**
- * #4 examples of middleware required (loaded) from node_modules
+ * 3rd party middleware required (loaded) from node_modules
+ * See require statements above
  */
 app.use(express.static('public')); // serve static files
 app.use(bodyParser.json()); // parse JSON body
 
-// CORS - hand-coded version
+/**
+ * CORS middleware examples
+ */
 function demoCORS(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -60,7 +63,8 @@ app.use(demoCORS);
 
 
 /**
- * CORS - using cors npm package 
+ * CORS - 3rd party version
+ * See require statement above
  */
 app.use(cors());
 
