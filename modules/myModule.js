@@ -1,44 +1,42 @@
 'use strict';
 
-// module.exports = {}
-// exports = module.exports
+/**
+ * at the start of each module, node creates:
+ *  `module.exports = exports = {}`
+ * 
+ * The value of module.exports is the thing that gets exports.
+ * So you can use `exports.someProperty = someThing` syntax but
+ * DO NOT reassign `exports = {someProperty : someThing}`.
+ * 
+ * Below is a common, safe and preferred structure
+ */
 
-module.exports.foo = 35
-console.log('what is exports?', exports)
-
-const create= function () {
+const create = function () {
   console.log('do create');
 };
-const find= function () {
+const find = function () {
   console.log('do find');
 };
-const update= function () {
+const update = function () {
   console.log('do update');
 };
-const remove= function () {
+const remove = function () {
   console.log('do delete');
 };
 
-exports = {create, find, update, remove};
-console.log('what is exports?', exports);
+// export the create, find and update, but not the remove method
+module.exports = { create, find, update};
 
-// node always exports the `module.exports` object
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const {create, find, update, remove}  = model;
+// Alternative longhand solution using `module.exports`
 // module.exports.foo = model.create;
 // module.exports.bar = model.find;
 // module.exports.update = model.update;
-// module.exports.remove = model.remove;
+
+// Alternative longhand solution using `exports`
+// exports.foo = model.create;
+// exports.bar = model.find;
+// exports.update = model.update;
+
+// DO NOT USE THE shorthand solution with `exports`
+// **** THE FOLLOWING WILL NOT WORK AS EXPECTED ****
+// exports = { create, find, update};

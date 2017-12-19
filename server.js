@@ -34,7 +34,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(morgan('common'));
 
 /**
  * #3 example of named function middleware
@@ -48,6 +47,10 @@ const demoLogger = function (req, res, next) {
 
 app.use(demoLogger);
 
+/**
+ * Replace "handmade" logger with morgan
+ */
+app.use(morgan('dev'));
 
 /**
  * 3rd party middleware required (loaded) from node_modules

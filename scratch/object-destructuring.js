@@ -1,6 +1,6 @@
 'use strict';
 
-const model = {
+const someObject = {
   create: function () {
     console.log('do create');
   },
@@ -15,10 +15,10 @@ const model = {
   },
 };
 
-// "traditional"
-const find = model.find;
-const remove = model.remove;
+// "traditional" 
+const find = someObject.find;
+const remove = someObject.remove;
 
 // Object destructuring
-const { create, update } = model
+const { create, update } = someObject;
 

@@ -13,13 +13,15 @@ const remove = function () {
   console.log('do delete');
 };
 
-// "traditional"
-const model = {
+// "traditional" construct object with properties and values
+/*
+const someObject = {
   create: create,
   find: find,
   update: update,
   remove: remove
 }
+*/
 
 //Object property shorthand
-const model = { create, find, update, remove };
+const someObject = { create, find, update, remove };
