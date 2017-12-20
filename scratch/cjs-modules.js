@@ -6,7 +6,7 @@ const http = require('http');  //node core module
 const express = require('express');  //node_module
 
 /**
- * Common require() and destructure syntax
+ * Require() and destructure syntax
  */
 const {create, find, update} = require('../modules/myModule'); // custom module
 

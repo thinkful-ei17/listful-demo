@@ -1,5 +1,7 @@
 Listful App
-============================
+===========
+
+# W3 Tuesday - Express Middleware and Node Modules
 
 ## Basic Middleware examples to server.js
 - #1 example of "inline" middleware
@@ -25,10 +27,38 @@ The Node modules system uses Common JS modules syntax.
 - Require() and destructure syntax
 - Require() module and use dot syntax to access methods
 
+- Create `config.js` and create PORT variable
+- Require `config.js` destructure PORT and update `app.listen(PORT...`
+
 Also find small demos on 
 - scratch/object-destructuring.js
 - scratch/object-property-shorthand.js
 
+# W3 Wednesday - RESTful APIs and Express Router
+
+Create a `db` folder
+- Add simDB (sync mode)
+- Move `data` array of objects to `items.json`
+
+In scratch
+- Create a file named `simDB-exercises.js`
+- Run `nodemon scratch/simDB-exercises.js`
+- Exercise simDB by running find, findById, findByIdAndUpdate etc...
+
+In server.js
+- Cleanup demo code from previous version
+- Require `simDB` and `items.json` and `initialize()`
+- Update or create endpoints for:
+  - Retrieve list of items `.get('/items, ...)`
+  - Retrieve single items `.get('/items/:id, ...)`
+  - Create an item `.post('/items, ...)`
+  - Update an item `.put('/items/:id, ...)`
+  - Delete an item `.delete('/items/:id, ...)`
+
+In public
+- Update client to use new endpoints
+- Update render method to add an input tag, and check and delete buttons
+- 
 
 curl -X GET http://localhost:8080/items
 

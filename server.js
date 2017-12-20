@@ -3,121 +3,80 @@
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
-
-
-
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const data = [
-  { 'name': 'Apples', 'checked': false },
-  { 'name': 'Bananas', 'checked': true },
-  { 'name': 'Cherries', 'checked': false },
-  { 'name': 'Dates', 'checked': true },
-  { 'name': 'Eggplant', 'checked': false },
-  { 'name': 'Flour', 'checked': true },
-  { 'name': 'Grapes', 'checked': false },
-  { 'name': 'Honey', 'checked': true },
-  { 'name': 'IceCream', 'checked': false },
-  { 'name': 'Jello', 'checked': true }
-];
 
+const data = require('./db/items');
+const simDB = require('./db/simDB');
+const items = simDB.initialize(data);
 
-
-
-/**
- * #2 example of anonymous function middleware in app.use
- */
-app.use((req, res, next) => {
-  console.log('anonymous function middleware');
-  const now = new Date();
-  console.log(`${now.toLocaleString()} ${req.method} ${req.url}`);
-  next();
-});
-
-
-/**
- * #3 example of named function middleware
- */
-const demoLogger = function (req, res, next) {
-  console.log('named function middleware');
-  const now = new Date();
-  console.log(`${now.toLocaleString()} ${req.method} ${req.url}`);
-  next();
-};
-
-app.use(demoLogger);
-
-/**
- * Replace "handmade" logger with morgan
- */
 app.use(morgan('dev'));
-
-/**
- * 3rd party middleware required (loaded) from node_modules
- * See require statements above
- */
 app.use(express.static('public')); // serve static files
 app.use(bodyParser.json()); // parse JSON body
-
-/**
- * CORS middleware examples
- */
-function demoCORS(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  next();
-}
-
-app.use(demoCORS);
-
-
-/**
- * CORS - 3rd party version
- * See require statement above
- */
 app.use(cors());
 
-
-
-/**
- * #1 example of "inline" middleware
- */
-app.get('/items', (req, res, next) => {
-  console.log('"inline" middleware');
-  req.foobar = 'baz';
-  next();
-}, (req, res) => {
-  const query = req.query;
-  console.log(req.foobar); // verify that req.foo was set
-  // filter the data array based on the query
-  const list = data.filter(item => Object.keys(query).every(key => item[key] === query[key]));
+// Listening for: GET /items
+app.get('/items', (req, res) => {
+  const query = req.query; // ?name=buy%20milk ==> {name: "Buy Milk"}
+  const list = items.find(query);
   res.json(list);
 });
 
+// Listening for: GET /items/42
 app.get('/items/:id', (req, res) => {
-  const id = req.params.id;
-  const item = data[id];
+  let id = req.params.id; // "42" is a string
+  id = parseInt(id);
+  const item = items.findById(id);
   res.json(item);
 });
 
+// Listening for: POST /items with a body {"name": "Do Something"}
 app.post('/items', (req, res) => {
   const name = req.body.name;
-  const newItem = { name: name };
-  newItem.checked = false; // default to false
-  data.unshift(newItem);   // add to the front of array
-  res.json(newItem);
+  const newObj = { name };
+  newObj.checked = false; // default to false
+  const newItem = items.create(newObj);
+  res.location(`/items/${newItem.id}`).json(newItem);
+});
+
+// Listening for: PUT /items/42 with a body {"name": "Change Item"}
+app.put('/items/:id', (req, res) => {
+  let id = req.params.id; // "35"
+  id = parseInt(id);
+
+  const updateObj = {};
+  const updateableFields = ['name', 'checked'];
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      updateObj[field] = req.body[field];
+    }
+  });
+
+  const item = items.findByIdAndUpdate(id, updateObj);
+  res.json(item); 
+});
+
+// Listening for: DELETE /items/42
+app.delete('/items/:id', (req, res, next) => {
+  let id = req.params.id;
+  id = parseInt(id);
+
+  const count = items.findByIdAndRemove(id);
+  if (count) {
+    res.status(204).end();
+  } else {
+    next();
+  }
 });
 
 app.use(function (req, res) {
   res.status(404).json({ message: 'Not Found' });
 });
-
+   
 app.use(function (err, req, res, next) {
   console.error(err.stack);
   res.status(500).json({ message: 'Something broke!' });
 });
-
 
 app.listen(8080, function () {
   console.info(`Server listening on ${this.address().port}`);
