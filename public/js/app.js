@@ -59,7 +59,6 @@ $(() => {
     event.preventDefault();
     const id = $(event.currentTarget).closest('.js-item-id-element').attr('data-item-id');
     const itemUpdate = { name: $(event.currentTarget).val() };
-    console.log(itemUpdate)
 
     api.update(id, itemUpdate, () => {
       store.findByIdAndUpdate(id, itemUpdate);
