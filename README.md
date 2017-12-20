@@ -56,9 +56,11 @@ In server.js
   - Delete an item `.delete('/items/:id, ...)`
 
 In public
-- Update client to use new endpoints
-- Update render method to add an input tag, and check and delete buttons
-- 
+Update client to use new endpoints
+- Update `render.js` method to add an input tag, and check and delete buttons
+- Update `app.js` to listen to new HTML elements
+- Update `store.js` with methods to help maintain state
+- Update `api.js` with methods to call new endpoints
 
 curl -X GET http://localhost:8080/items
 

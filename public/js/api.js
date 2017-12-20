@@ -16,7 +16,7 @@ class Api {
 
     return url;
   }
-  
+
   search(query, success) {
     const url = this._buildUrl(this.path, query);
     return $.ajax({
@@ -38,11 +38,32 @@ class Api {
       success: success
     });
   }
-
+  
   details(id, success) {
     const url = this._buildUrl(`${this.path}/${id}`);
     return $.ajax({
       type: 'GET',
+      url: url,
+      success: success
+    });
+  }
+
+  update(id, obj, success) {
+    const url = this._buildUrl(`${this.path}/${id}`);
+    return $.ajax({
+      type: 'PUT',
+      url: url,
+      data: obj ? JSON.stringify(obj) : null,
+      dataType: 'json',
+      contentType: 'application/json',
+      success: success
+    });
+  }
+
+  remove(id, success) {
+    const url = this._buildUrl(`${this.path}/${id}`);
+    return $.ajax({
+      type: 'DELETE',
       url: url,
       success: success
     });

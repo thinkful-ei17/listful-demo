@@ -11,7 +11,7 @@ $(() => {
     store.data = response;
     render.shoppingList();
   });
-  
+
   $('#js-shopping-list-form').submit(event => {
     event.preventDefault();
 
@@ -31,6 +31,39 @@ $(() => {
 
     api.details(id, item => {
       console.log(item);
+    });
+  });
+
+  $('.js-shopping-list').on('click', '.js-item-toggle', event => {
+    event.preventDefault();
+    const id = $(event.currentTarget).closest('.js-item-id-element').attr('data-item-id');
+    const item = store.findById(id);
+
+    api.update(id, { checked: !item.checked }, response => {
+      item.checked = response.checked;
+      render.shoppingList();
+    });
+  });
+
+  $('.js-shopping-list').on('click', '.js-item-delete', event => {
+    event.preventDefault();
+    const id = $(event.currentTarget).closest('.js-item-id-element').attr('data-item-id');
+
+    api.remove(id, () => {
+      store.findByIdAndRemove(id);
+      render.shoppingList();
+    });
+  });
+
+  $('.js-shopping-list').on('change', '.js-shopping-item', event => {
+    event.preventDefault();
+    const id = $(event.currentTarget).closest('.js-item-id-element').attr('data-item-id');
+    const itemUpdate = { name: $(event.currentTarget).val() };
+    console.log(itemUpdate)
+
+    api.update(id, itemUpdate, () => {
+      store.findByIdAndUpdate(id, itemUpdate);
+      render.shoppingList();
     });
   });
 
