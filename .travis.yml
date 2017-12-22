@@ -1,2 +1,9 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: ksLOpMkux45qQgmMmIvnMdc6cOFqPADLSHjTmNyhNjQ5FD9gPQnxoSj1YtQBHk3K6tM3SVWycH9x+zv9GTbUnEJPFN/jcgqmkVyhiclZTYmR6kK5r+4HnW1l7bHk6Dt86C33ciWE+ygdZooLVWZwgCwtGEbcYFAkUOWGOmx3DknY200HJA6wmO+7LHVF0/2pBNEx0qzlG/1IjbE9Iguf0qptHbBRYG/xXmTBIduTyTO2aUdOTFjjQue+j+2GO2yDJgISADMau1tqIV0qChb7wetzJxbacwkSCw9H142k7ytWcpdCC0KKaj4ff5kMlHmP5SeGpCR/N4Q1Y83l/7EGzShYdfpL48B6CtSpOK4t1ZGbkGAgT/gGHOW1qTZCL8FOMnwuO9715+LtlsE8T+OHdP8R66urT7U0zMufS9z08SOl6HjlM7uSW/1tlJTCgROh1/FuAPbjslQ93N47dW/5+0D+NxNUF0xPDnpWu+KiUjDZRPcg/idhUSJ1BKfFqJGUDKVGTtieu/De83QPUsQaTnP3977IcHGlV7vHKBgpnrYS2AzI8SxWZS4jlEhG+YaKy/fScKx1rsFEfD6XO6Ku/owNJnC9TmEojNpl0H2BlJHJYIhrhTPyAhbksO6eUbU4Kvum0G0jB6UpHiuK2b7xYOZr1GGDAcIYrXfa0PqF+xo=
+  app: listful-demo-ei17
+  on:
+    repo: thinkful-ei17/listful-demo
